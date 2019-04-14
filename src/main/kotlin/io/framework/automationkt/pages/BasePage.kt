@@ -1,19 +1,19 @@
 package io.framework.automationkt.pages
 
-import io.framework.automationkt.annotations.Footer
-import io.framework.automationkt.annotations.Header
 import org.openqa.selenium.WebDriver
+import org.springframework.beans.factory.annotation.Autowired
 
 class BasePage : PageFragment() {
 
-    @Header
+
+    @Autowired
     lateinit var pageHeader: PageHeader
 
-    @Footer
+    @Autowired
     lateinit var pageFooter: PageFooter
 
     override var driver: WebDriver
         get() = super.driver
         set(value) {}
-    
+
 }

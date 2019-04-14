@@ -7,5 +7,5 @@ import org.springframework.boot.runApplication
 class AutomationKtApplication
 
 fun main(args: Array<String>) {
-	runApplication<AutomationKtApplication>(*args)
+    runApplication<AutomationKtApplication>(*args)
 }

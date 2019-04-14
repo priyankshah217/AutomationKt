@@ -1,10 +1,11 @@
 package io.framework.automationkt.pages
 
-import org.springframework.stereotype.Component
+import io.framework.automationkt.annotations.Header
 
-@Component
+@Header
 class PageHeader {
     val searchBoxLocator: String = "id:twotabsearchtextbox"
+    val searchFormLocator: String = "name:site-search"
 }
 
 

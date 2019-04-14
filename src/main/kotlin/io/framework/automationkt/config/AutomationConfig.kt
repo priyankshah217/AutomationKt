@@ -1,5 +1,7 @@
 package io.framework.automationkt.config
 
+import io.framework.automationkt.pages.PageFooter
+import io.framework.automationkt.pages.PageHeader
 import org.openqa.selenium.WebDriver
 import org.openqa.selenium.chrome.ChromeDriver
 import org.openqa.selenium.firefox.FirefoxDriver
@@ -12,6 +14,16 @@ class AutomationConfig {
 
     @Value("\${driver.type}")
     lateinit var driverType: String
+
+    @Bean
+    fun getHeader(): PageHeader {
+        return PageHeader()
+    }
+
+    @Bean
+    fun getFooter(): PageFooter {
+        return PageFooter()
+    }
 
     @Bean
     fun getDriver(): WebDriver? {
