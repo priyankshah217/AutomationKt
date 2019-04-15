@@ -3,6 +3,6 @@ package io.framework.automationkt.annotations
 import org.springframework.stereotype.Component
 
 @Component
-@Target(AnnotationTarget.ANNOTATION_CLASS, AnnotationTarget.PROPERTY, AnnotationTarget.CLASS, AnnotationTarget.PROPERTY_SETTER)
-@Retention(AnnotationRetention.SOURCE)
+@Target(AnnotationTarget.TYPE, AnnotationTarget.CLASS)
+@Retention(AnnotationRetention.RUNTIME)
 annotation class Header

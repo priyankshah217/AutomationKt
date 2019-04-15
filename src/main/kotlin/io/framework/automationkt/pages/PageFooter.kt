@@ -1,8 +1,8 @@
 package io.framework.automationkt.pages
 
-import org.springframework.stereotype.Component
+import io.framework.automationkt.annotations.Footer
 
-@Component
+@Footer
 class PageFooter {
     val footerLocator = "id:navFooter"
 }
