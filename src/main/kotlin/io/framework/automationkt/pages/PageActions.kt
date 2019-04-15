@@ -4,8 +4,9 @@ import org.openqa.selenium.By
 import org.openqa.selenium.WebElement
 
 interface PageActions {
-//    fun launchUrl(url:String)
+    //    fun launchUrl(url:String)
     fun isElementPresent(by: By): Boolean
+
     fun isElementPresent(webElement: WebElement): Boolean
     fun click(by: By)
     fun click(webElement: WebElement)

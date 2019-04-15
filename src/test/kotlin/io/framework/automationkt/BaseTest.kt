@@ -3,15 +3,14 @@ package io.framework.automationkt
 import org.junit.Before
 import org.openqa.selenium.WebDriver
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.beans.factory.annotation.Value
 
-open class BaseTest{
+open class BaseTest {
 
     @Autowired
     lateinit var webDriver: WebDriver
 
     @Before
-    fun setUp(){
+    fun setUp() {
         webDriver.get("https://www.amazon.in")
     }
 }
