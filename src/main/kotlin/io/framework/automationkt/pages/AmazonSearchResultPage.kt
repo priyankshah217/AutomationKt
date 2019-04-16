@@ -1,16 +1,18 @@
 package io.framework.automationkt.pages
 
-import org.springframework.stereotype.Component
+import io.framework.automationkt.annotations.Page
+import io.framework.automationkt.pages.base.BasePage
 
-@Component
+
+@Page
 class AmazonSearchResultPage : BasePage() {
-    val searchLink: String = "css:span.a-size-medium.a-color-base.a-text-normal"
+    val searchLink: String = "xpath://h5/a"
     val productTitleLocator: String = "id:productTitle"
 
-
     fun selectItemFromList() {
-        click(searchLink)
+        click(getElementByIndex(searchLink, 1))
     }
+
 
     fun getProductTitle(): String? {
         return getElement(productTitleLocator)?.text

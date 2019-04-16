@@ -1,4 +1,4 @@
-package io.framework.automationkt.pages
+package io.framework.automationkt.pages.base
 
 import io.framework.automationkt.exceptions.UnableToParseLocatorException
 import org.openqa.selenium.By
@@ -23,11 +23,7 @@ class PageFragment : PageActions {
 
     private val logger: Logger = LoggerFactory.getLogger(PageFragment::class.java)
 
-//    override fun launchUrl(url: String) {
-//        driver.get(url)
-//    }
-
-    override fun isElementPresent(by: By): Boolean {
+    override fun isElementPresent(by: By?): Boolean {
         val wait = WebDriverWait(driver, waitTime.toLong())
         return try {
             wait.until(ExpectedConditions.elementToBeClickable(by)).isDisplayed
@@ -37,7 +33,7 @@ class PageFragment : PageActions {
         }
     }
 
-    override fun isElementPresent(webElement: WebElement): Boolean {
+    override fun isElementPresent(webElement: WebElement?): Boolean {
         val wait = WebDriverWait(driver, waitTime.toLong())
         return try {
             wait.until(ExpectedConditions.elementToBeClickable(webElement)).isDisplayed
@@ -47,16 +43,36 @@ class PageFragment : PageActions {
         }
     }
 
-    private fun getElement(webElement: WebElement): WebElement? {
+    fun waitForElementToBeClickable(webElement: WebElement?): WebElement? {
         return if (isElementPresent(webElement))
             webElement
         else
             null
     }
 
+    fun getElementByIndex(searchLocatorWithValue: String, index: Int): WebElement? {
+        val (searchBy, searchByValue) = extractLocatorsFromProperties(searchLocatorWithValue)
+        return when (searchBy.toLowerCase()) {
+            "id" -> getElements(By.id(searchByValue))?.get(index)
+            "xpath" -> getElements(By.xpath(searchByValue))?.get(index)
+            "css" -> getElements(By.cssSelector(searchByValue))?.get(index)
+            "class" -> getElements(By.className(searchByValue))?.get(index)
+            "tag" -> getElements(By.tagName(searchByValue))?.get(index)
+            "name" -> getElements(By.name(searchByValue))?.get(index)
+            else -> throw UnableToParseLocatorException(searchLocatorWithValue)
+        }
+    }
+
+    private fun getElements(by: By?): List<WebElement>? {
+        return if (isElementPresent(by)) {
+            driver.findElements(by)
+        } else
+            null
+    }
+
     fun getElement(searchLocatorWithValue: String): WebElement? {
         val (searchBy, searchByValue) = extractLocatorsFromProperties(searchLocatorWithValue)
-        return when (searchBy) {
+        return when (searchBy.toLowerCase()) {
             "id" -> getElement(By.id(searchByValue))
             "xpath" -> getElement(By.xpath(searchByValue))
             "css" -> getElement(By.cssSelector(searchByValue))
@@ -69,20 +85,9 @@ class PageFragment : PageActions {
 
     private fun getElement(by: By): WebElement? {
         return if (isElementPresent(by))
-            return getElement(driver.findElement(by))
+            return waitForElementToBeClickable(driver.findElement(by))
         else
             null
-    }
-
-    private fun getElements(by: By): List<WebElement>? {
-        return if (isElementPresent(by))
-            return driver.findElements(by)
-        else
-            null
-    }
-
-    fun getElementByIndex(by: By, int: Int): WebElement? {
-        return getElements(by)?.get(int)
     }
 
     override fun click(by: By) {
@@ -94,16 +99,16 @@ class PageFragment : PageActions {
     }
 
     override fun sendText(webElement: WebElement, text: String) {
-        getElement(webElement)?.sendKeys(text)
+        waitForElementToBeClickable(webElement)?.sendKeys(text)
     }
 
-    override fun click(webElement: WebElement) {
-        getElement(webElement)?.click()
+    override fun click(webElement: WebElement?) {
+        waitForElementToBeClickable(webElement)?.click()
     }
 
     fun click(searchLocatorWithValue: String) {
         val (searchBy, searchByValue) = extractLocatorsFromProperties(searchLocatorWithValue)
-        when (searchBy) {
+        when (searchBy.toLowerCase()) {
             "id" -> click(By.id(searchByValue))
             "xpath" -> click(By.xpath(searchByValue))
             "css" -> click(By.cssSelector(searchByValue))
@@ -116,7 +121,7 @@ class PageFragment : PageActions {
 
     fun sendText(searchLocatorWithValue: String, textValue: String) {
         val (searchBy, searchByValue) = extractLocatorsFromProperties(searchLocatorWithValue)
-        when (searchBy) {
+        when (searchBy.toLowerCase()) {
             "id" -> sendText(By.id(searchByValue), textValue)
             "xpath" -> sendText(By.xpath(searchByValue), textValue)
             "css" -> sendText(By.cssSelector(searchByValue), textValue)
@@ -135,7 +140,7 @@ class PageFragment : PageActions {
 
     fun submitForm(searchLocatorWithValue: String) {
         val (searchBy, searchByValue) = extractLocatorsFromProperties(searchLocatorWithValue)
-        when (searchBy) {
+        when (searchBy.toLowerCase()) {
             "id" -> getElement(By.id(searchByValue))?.submit()
             "xpath" -> getElement(By.xpath(searchByValue))?.submit()
             "css" -> getElement(By.cssSelector(searchByValue))?.submit()

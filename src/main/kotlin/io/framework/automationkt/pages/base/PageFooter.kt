@@ -1,4 +1,4 @@
-package io.framework.automationkt.pages
+package io.framework.automationkt.pages.base
 
 import io.framework.automationkt.annotations.Footer
 

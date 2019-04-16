@@ -1,8 +1,9 @@
 package io.framework.automationkt.pages
 
-import org.springframework.stereotype.Component
+import io.framework.automationkt.annotations.Page
+import io.framework.automationkt.pages.base.BasePage
 
-@Component
+@Page
 class AmazonHomePage : BasePage() {
     val categoryIdLocator = "id:desktop-grid-1"
 
